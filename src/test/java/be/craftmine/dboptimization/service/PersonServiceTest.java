@@ -11,7 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -31,29 +34,45 @@ class PersonServiceTest {
     private ChildRepository childRepository;
 
     @Test
-//    @Commit
-//    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Commit
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void initData() {
         for (int i = 0; i < 10000; i++) {
-            Person person = new Person();
-            person.setName("Person " + i);
-            personRepository.save(person);
+            Person person = savePerson(i);
 
             for (int j = 0; j < 5; j++) {
-                Address address = new Address();
-                address.setStreet("Street " + j);
-                address.setCity("City " + j);
-                address.setPerson(person);
-                addressRepository.save(address);
+                saveAdress(j, person);
             }
 
             for (int j = 0; j < 5; j++) {
-                Child child = new Child();
-                child.setName("Child " + j);
-                child.setPerson(person);
-                childRepository.save(child);
+                saveChild(j, person);
             }
         }
+        Person person = savePerson(500);
+        saveAdress(500, person);
+        saveChild(500, person);
+    }
+
+    private void saveChild(int j, Person person) {
+        Child child = new Child();
+        child.setName("Child " + j);
+        child.setPerson(person);
+        childRepository.save(child);
+    }
+
+    private void saveAdress(int j, Person person) {
+        Address address = new Address();
+        address.setStreet("Street " + j);
+        address.setCity("City " + j);
+        address.setPerson(person);
+        addressRepository.save(address);
+    }
+
+    private Person savePerson(int i) {
+        Person person = new Person();
+        person.setName("Person " + i);
+        personRepository.save(person);
+        return person;
     }
 
     @Test
@@ -64,7 +83,7 @@ class PersonServiceTest {
 
     @Test
     void nPlusOneQueries() {
-        List<Person> persons = personRepository.findByName("Person 1000");
+        List<Person> persons = personRepository.findByName("Person 500");
         Set<Address> addresses = persons.get(0).getAddresses();
         Set<Child> children = persons.get(0).getChildren();
         assertThat(addresses).hasSize(5);
