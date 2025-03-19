@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -64,8 +65,8 @@ class PersonServiceTest {
     @Test
     void nPlusOneQueries() {
         List<Person> persons = personRepository.findByName("Person 1000");
-        List<Address> addresses = persons.get(0).getAddresses();
-        List<Child> children = persons.get(0).getChildren();
+        Set<Address> addresses = persons.get(0).getAddresses();
+        Set<Child> children = persons.get(0).getChildren();
         assertThat(addresses).hasSize(5);
         assertThat(children).hasSize(5);
     }

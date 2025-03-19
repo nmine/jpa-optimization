@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -17,9 +18,9 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    private List<Address> addresses;
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    private List<Child> children;
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    private Set<Child> children;
 }
