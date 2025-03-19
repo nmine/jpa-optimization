@@ -1,22 +1,20 @@
 package be.craftmine.dboptimization.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "address")
-public class Address {
+@Table(name = "child")
+public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "street")
-    private String street;
-
-    @Column(name = "city")
-    private String city;
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "person_id")

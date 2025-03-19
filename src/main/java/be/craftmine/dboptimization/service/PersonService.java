@@ -15,6 +15,6 @@ public class PersonService {
     }
 
     public List<Person> getPersonsByName(String name) {
-        return personRepository.findByNameWithAddresses(name); // Optimisé avec JOIN FETCH
+        return personRepository.findByName(name);
     }
 }

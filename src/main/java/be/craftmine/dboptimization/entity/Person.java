@@ -17,6 +17,9 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     private List<Address> addresses;
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    private List<Child> children;
 }
