@@ -1,15 +1,16 @@
 package be.craftmine.dboptimization.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "persons")
+//@Table(name = "persons",indexes = {@Index(name = "idx_person_name", columnList = "name")})
+@Table(name = "persons",indexes = {@Index(name = "idx_person_name", columnList = "name")})
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
