@@ -1,7 +1,11 @@
 performances issues to detect:
-- N+1 queries : when we have a query that is executed for each element of a collection
-- Solution : eager fetching
-- Eager fetching
+- N+1 queries : une query pour la liste principale + 1 par collection pour chaque item de la liste principale 
+  - Solution : 
+  - faire join fetch avec @Query
+  - Faire @Batch : diminue le nombre de queries et pas d'explosion cartessiene
+- Complexité cartessiene avec join fetch avec @Query
+- fetch type eager : susceptible de faire des queries inutile si list pas utilisé
+- pas d'index
 
 
 Log deux fois de la query 
