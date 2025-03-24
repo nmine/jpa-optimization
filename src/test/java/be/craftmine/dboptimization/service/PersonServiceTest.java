@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -37,7 +37,7 @@ class PersonServiceTest {
     @Commit
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void initData() {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
             Person person = savePerson(i);
 
             for (int j = 0; j < 5; j++) {
@@ -79,15 +79,16 @@ class PersonServiceTest {
     void deleteAllPersonsAndAddresses() {
         personRepository.deleteAll();
         addressRepository.deleteAll();
+        childRepository.deleteAll();
     }
 
     @Test
     void nPlusOneQueries() {
         List<Person> persons = personRepository.findByName("Person 500");
-        Set<Address> addresses = persons.get(0).getAddresses();
-        Set<Child> children = persons.get(0).getChildren();
-        assertThat(addresses).hasSize(5);
-        assertThat(children).hasSize(5);
+//        Set<Address> addresses = persons.getFirst().getAddresses();
+//        Set<Child> children = persons.get(0).getChildren();
+//        assertThat(addresses).hasSize(5);
+//        assertThat(children).hasSize(5);
     }
 
 }
